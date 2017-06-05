@@ -55,29 +55,31 @@ public class AvailableProperties {
         search.click();
         search.clear();
         search.sendKeys(Inputsearch);
-        search.sendKeys(Keys.ENTER);
-
         Thread.sleep(2000);
+        search.sendKeys(Keys.ENTER);
 
     }
 
     /**
-     * Description: Press Let´s Go button
+     * Description: Press Let´s Go button and wait button
      */
     @And("^I press search button$")
     public void pressSearchButton() throws InterruptedException {
 
-        WebElement searchButton = driver.findElement(
-                By.xpath("//div[@class='row']//div[@class='small-12 medium-12 large-12 columns']//button"));
-        searchButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement element = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.xpath("//*[@id=\"sb-search\"]/div[3]/div/button")));
 
+        driver.findElement(By.xpath("//*[@id=\"sb-search\"]/div[3]/div/button"));
+
+        ////div[@class='row']//div[@class='small-12 medium-12 large-12 columns']//button
     }
 
     /**
      * Description: Check if search result page is open through of presence od some element
      */
     @Then("^I expected to be in results page$")
-    public void resultsPage() throws Throwable {
+    public void resultsPage() throws InterruptedException {
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement element = wait.until(ExpectedConditions.
@@ -110,7 +112,7 @@ public class AvailableProperties {
         List<WebElement> elementsDiv =  driver.findElements(
                 By.xpath("//h2//a[@class='hwta-property-link' and   @target='_self']"));
         for(WebElement data:elementsDiv){
-            System.out.println(data.getText());
+            //System.out.println(data.getText());
             obtainedList.add(data.getText());
         }
 
@@ -130,7 +132,6 @@ public class AvailableProperties {
     public void closeBrowse() throws InterruptedException {
 
         driver.close();
-        driver.quit();
 
     }
 }
